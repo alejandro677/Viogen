@@ -204,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label>Identificador único</label>
         <input type="text" name="id" value="<?= htmlspecialchars($agresor['id']) ?>" <?= $editando ? 'readonly' : '' ?>>
 
-        <label>Nombre y apellidos ficticios</label>
+        <label>Nombre y apellidos</label>
         <input type="text" name="nombre" value="<?= htmlspecialchars($agresor['nombre']) ?>">
 
         <label>Antecedentes relevantes documentados</label>
