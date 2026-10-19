@@ -1,0 +1,278 @@
+/* ==========================================================
+   Proyecto VioGén · estilos.css
+   Hoja de estilos única para todas las páginas.
+   Se aplica sobre etiquetas HTML, no requiere clases.
+   Clases opcionales al final: .mensaje, .ok, .error, .aviso, .secundario
+   ========================================================== */
+
+:root {
+  --fondo: #f4f1f9;
+  --hoja: #ffffff;
+  --tinta: #2a2140;
+  --tinta-suave: #6a6280;
+  --violeta: #5b3f8c;
+  --violeta-oscuro: #46306e;
+  --violeta-claro: #ece7f5;
+  --sobre-violeta: #ffffff;
+  --borde: #d9d1e8;
+  --ok: #1f6b46;
+  --ok-fondo: #e4f3ea;
+  --error: #9b2c3a;
+  --error-fondo: #fbe9ec;
+  --sombra: 0 1px 2px rgba(42, 33, 64, .06), 0 8px 24px rgba(42, 33, 64, .08);
+  --serif: Georgia, "Times New Roman", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #15111d;
+    --hoja: #1f1a2c;
+    --tinta: #ece8f5;
+    --tinta-suave: #a79fbd;
+    --violeta: #b9a1f2;
+    --violeta-oscuro: #cfbdf7;
+    --violeta-claro: #2c2540;
+    --sobre-violeta: #1b1428;
+    --borde: #3a3150;
+    --ok: #7fd4a6;
+    --ok-fondo: #1c3329;
+    --error: #f0a0ab;
+    --error-fondo: #3a1f26;
+    --sombra: 0 8px 24px rgba(0, 0, 0, .35);
+  }
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { background: var(--fondo); }
+
+body {
+  max-width: 880px;
+  margin: 2.5rem auto;
+  padding: 2.5rem 2.75rem 3rem;
+  background: var(--hoja);
+  color: var(--tinta);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  border-top: 6px solid var(--violeta);  
+  border-radius: 0 0 14px 14px;
+  box-shadow: var(--sombra);
+}
+
+/* ---------- Tipografía ---------- */
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--tinta);
+}
+
+h1 {
+  font-size: 2.4rem;
+  margin: 0 0 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--borde);
+  letter-spacing: -.01em;
+}
+
+h2 {
+  font-size: 1.45rem;
+  margin: 2.25rem 0 .75rem;
+}
+
+h3 { font-size: 1.15rem; margin: 1.5rem 0 .5rem; }
+
+p { margin: 0 0 1rem; max-width: 68ch; }
+
+a { color: var(--violeta); text-underline-offset: 3px; }
+a:hover { color: var(--violeta-oscuro); }
+
+ul, ol { padding-left: 1.4rem; margin: 0 0 1rem; }
+li { margin-bottom: .35rem; }
+li::marker { color: var(--violeta); }
+
+hr { border: 0; border-top: 1px solid var(--borde); margin: 2rem 0; }
+
+/* ---------- Formularios ---------- */
+form br { display: none; }  
+
+label {
+  display: block;
+  margin: 1.1rem 0 .35rem;
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  padding: .6rem .75rem;
+  font: inherit;
+  color: var(--tinta);
+  background: var(--hoja);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+textarea { min-height: 7rem; resize: vertical; }
+
+input:hover, select:hover, textarea:hover { border-color: var(--violeta); }
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--violeta);
+  box-shadow: 0 0 0 3px var(--violeta-claro), 0 0 0 4px var(--violeta);
+}
+
+/* Opciones Sí / No / Desconocido */
+input[type="radio"], input[type="checkbox"] {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin: 0;
+  accent-color: var(--violeta);
+}
+
+label:has(input[type="radio"]),
+label:has(input[type="checkbox"]) {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  margin: .25rem 1.25rem .25rem 0;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+/* Bloques de indicadores */
+fieldset {
+  margin: 1rem 0;
+  padding: .75rem 1.25rem 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: var(--violeta-claro);
+}
+
+legend {
+  padding: 0 .5rem;
+  font-family: var(--serif);
+  font-weight: 700;
+  color: var(--violeta);
+}
+
+/* ---------- Botones ---------- */
+button,
+input[type="submit"] {
+  display: inline-block;
+  margin: .5rem .5rem .25rem 0;
+  padding: .65rem 1.3rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--sobre-violeta);
+  background: var(--violeta);
+  border: 1px solid var(--violeta);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+
+button:hover, input[type="submit"]:hover {
+  background: var(--violeta-oscuro);
+  border-color: var(--violeta-oscuro);
+}
+
+button:active { transform: translateY(1px); }
+
+button:focus-visible, input[type="submit"]:focus-visible, a:focus-visible {
+  outline: 3px solid var(--violeta);
+  outline-offset: 2px;
+}
+
+/* Botones de navegación (todas las páginas): aspecto más suave */
+button[name="inicio"],
+button[name="incidencias"],
+button[name="victimas"],
+button[name="agresores"],
+button[name="valoracion"],
+button[name="informe"],
+.secundario {
+  color: var(--violeta);
+  background: var(--violeta-claro);
+  border-color: var(--borde);
+}
+
+button[name="inicio"]:hover,
+button[name="incidencias"]:hover,
+button[name="victimas"]:hover,
+button[name="agresores"]:hover,
+button[name="valoracion"]:hover,
+button[name="informe"]:hover,
+.secundario:hover {
+  color: var(--sobre-violeta);
+  background: var(--violeta);
+  border-color: var(--violeta);
+}
+
+/* ---------- Tablas ---------- */
+table {
+  width: 100%;
+  margin: 1rem 0 1.5rem;
+  border-collapse: collapse;
+  font-size: .95rem;
+}
+
+th, td {
+  padding: .65rem .8rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--borde);
+}
+
+th {
+  font-family: var(--serif);
+  color: var(--violeta);
+  background: var(--violeta-claro);
+  border-bottom: 2px solid var(--violeta);
+}
+
+tbody tr:hover { background: var(--violeta-claro); }
+
+/* ---------- Mensajes (clases opcionales) ---------- */
+.mensaje, .ok, .error, .aviso {
+  max-width: 68ch;
+  margin: 1.25rem 0;
+  padding: .85rem 1.1rem;
+  border-left: 4px solid var(--violeta);
+  border-radius: 0 8px 8px 0;
+  background: var(--violeta-claro);
+}
+
+.ok    { border-left-color: var(--ok);    background: var(--ok-fondo);    color: var(--ok); }
+.error { border-left-color: var(--error); background: var(--error-fondo); color: var(--error); }
+
+/* ---------- Adaptación a móvil ---------- */
+@media (max-width: 640px) {
+  body {
+    margin: 0;
+    padding: 1.5rem 1.1rem 2rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  h1 { font-size: 1.9rem; }
+  h2 { font-size: 1.3rem; }
+  input[type="text"], input[type="number"], input[type="date"],
+  input[type="email"], input[type="tel"], select, textarea { max-width: 100%; }
+  table { display: block; overflow-x: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

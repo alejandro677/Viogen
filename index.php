@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/estilos.css">
     <title>Proyecto VioGén</title>
 </head>
 
@@ -69,9 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     <h2>Participantes del proyecto</h2>
 
     <ul>
-        <li>Integrante 1: Nombre y apellidos</li>
-        <li>Integrante 2: Nombre y apellidos</li>
-        <li>Integrante 3: Nombre y apellidos</li>
+        <li>Integrante 1: Alberto Jimenez Hernandez</li>
+        <li>Integrante 2: Izan Cano Flores</li>
+        <li>Integrante 3: Alejandro Garrido Griñon</li>
     </ul>
 
     <h2>Menú de navegación</h2>
