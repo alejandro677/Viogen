@@ -71,7 +71,7 @@ if (isset($_POST['modificar'])) {
 
     <h1>Gestión de víctimas</h1>
 
-    <p>Registra únicamente datos ficticios.</p>
+    <p>Introduce los datos de la victima.</p>
 
     <form method="POST">
 
@@ -80,7 +80,7 @@ if (isset($_POST['modificar'])) {
         <label>Identificador único</label>
         <input type="text" name="id">
 
-        <label>Nombre y apellidos ficticios</label>
+        <label>Nombre y apellidos</label>
         <input type="text" name="nombre">
 
         <label>Edad</label>
