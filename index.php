@@ -2,11 +2,6 @@
 // NAVEGACION
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-    if (isset($_POST['inicio'])){
-        require('index.php');
-        die();
-    }
-
     if (isset($_POST['incidencias'])){
         require('incidencias.php');
         die();
