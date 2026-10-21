@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilos.css">
+    <title>Valoración orientativa</title>
+</head>
+
+<body>
+
+    <h1>Valoración orientativa</h1>
+
+    <p>Uso exclusivamente académico y con datos ficticios. No es una evaluación profesional ni reproduce el algoritmo oficial de VioGén.</p>
+
+    <?php if ($mensaje !== ''): ?>
+        <p class="mensaje"><?= e($mensaje) ?></p>
+    <?php endif; ?>
+
+    <form method="POST">
+
+        <input type="hidden" name="pagina" value="valoracion">
+        <input type="hidden" name="datos" value="<?= e(json_encode($datos)) ?>">
+
+        <?php if (count($incidencias) === 0): ?>
+
+            <p>No hay incidencias registradas. Registra una incidencia antes de realizar una valoración.</p>
+
+        <?php else: ?>
+
+            <!-- PASO 1: ELEGIR LA INCIDENCIA -->
+
+            <h2>1. Selecciona una incidencia</h2>
+
+            <select name="id_incidencia">
+                <option value="">Seleccionar...</option>
+                <?php foreach ($incidencias as $inc): ?>
+                    <option value="<?= e($inc['id']) ?>" <?= ($inc['id'] === $datos['valoracion']['id_incidencia']) ? 'selected' : '' ?>>
+                        <?= e($inc['id']) ?> - <?= e($inc['fecha'] ?? '') ?> - <?= e($inc['lugar'] ?? '') ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
+            <button name="consultar">Consultar incidencia</button>
+
+            <?php if ($incidencia_valoracion !== null): ?>
+
+                <!-- INFORMACION RELACIONADA -->
+
+                <h2>Información de la incidencia</h2>
+
+                <ul>
+                    <li><strong>Código:</strong> <?= e($incidencia_valoracion['id']) ?></li>
+                    <li><strong>Fecha:</strong> <?= e($incidencia_valoracion['fecha'] ?? '') ?></li>
+                    <li><strong>Lugar:</strong> <?= e($incidencia_valoracion['lugar'] ?? '') ?></li>
+                    <li><strong>Descripción:</strong> <?= e($incidencia_valoracion['descripcion'] ?? '') ?></li>
+                    <li><strong>Víctima:</strong>
+                        <?php if ($victima_valoracion !== null): ?>
+                            <?= e($victima_valoracion['id']) ?> - <?= e($victima_valoracion['nombre'] ?? '') ?>
+                        <?php else: ?>
+                            no encontrada en los registros
+                        <?php endif; ?>
+                    </li>
+                    <li><strong>Agresor:</strong>
+                        <?php if ($agresor_valoracion !== null): ?>
+                            <?= e($agresor_valoracion['id']) ?> - <?= e($agresor_valoracion['nombre'] ?? '') ?>
+                        <?php else: ?>
+                            no encontrado en los registros
+                        <?php endif; ?>
+                    </li>
+                    <li><strong>Observaciones:</strong> <?= e($incidencia_valoracion['observaciones'] ?? '') ?></li>
+                </ul>
+
+                <!-- PASO 2: INDICADORES -->
+
+                <h2>2. Indicadores de riesgo</h2>
+
+                <?php foreach (INDICADORES as $clave => $texto): ?>
+                    <label><?= e($texto) ?></label>
+                    <select name="indicadores[<?= e($clave) ?>]">
+                        <?php foreach (RESPUESTAS as $opcion): ?>
+                            <option value="<?= e($opcion) ?>" <?= (($datos['valoracion']['indicadores'][$clave] ?? 'Desconocido') === $opcion) ? 'selected' : '' ?>>
+                                <?= e($opcion) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php endforeach; ?>
+
+                <label>Observaciones</label>
+                <textarea name="observaciones"><?= e($datos['valoracion']['observaciones']) ?></textarea>
+
+                <button name="guardar">Guardar valoración</button>
+
+            <?php endif; ?>
+
+            <!-- RESULTADO -->
+
+            <?php if ($valoracion_guardada !== null): ?>
+
+                <h2>Resultado académico orientativo</h2>
+
+                <p class="mensaje">
+                    <strong>Nivel: <?= e($valoracion_guardada['nivel']) ?></strong><br>
+                    <?= e($valoracion_guardada['explicacion']) ?>
+                </p>
+
+                <h3>Factores detectados</h3>
+
+                <?php if (count($valoracion_guardada['detectados']) === 0): ?>
+                    <p>No se ha detectado ningún factor.</p>
+                <?php else: ?>
+                    <ul>
+                        <?php foreach ($valoracion_guardada['detectados'] as $factor): ?>
+                            <li><?= e($factor) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+
+                <h3>Información pendiente</h3>
+
+                <?php if (count($valoracion_guardada['pendientes']) === 0): ?>
+                    <p>No hay información pendiente.</p>
+                <?php else: ?>
+                    <ul>
+                        <?php foreach ($valoracion_guardada['pendientes'] as $pendiente): ?>
+                            <li><?= e($pendiente) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+
+            <?php endif; ?>
+
+        <?php endif; ?>
+
+        <?php require __DIR__ . '/menu.html'; ?>
+
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilos.css">
+    <title>Gestión de incidencias</title>
+</head>
+
+<body>
+
+    <h1>Gestión de incidencias</h1>
+
+    <p>Registra únicamente datos ficticios. Los indicadores son orientativos y no sustituyen una valoración profesional.</p>
+
+    <?php if ($mensaje !== ''): ?>
+        <p class="mensaje"><?= e($mensaje) ?></p>
+    <?php endif; ?>
+
+    <form method="POST">
+
+        <input type="hidden" name="pagina" value="incidencias">
+        <input type="hidden" name="datos" value="<?= e(json_encode($datos)) ?>">
+
+        <h2>Registrar incidencia</h2>
+
+        <?php if (count($victimas) === 0 || count($agresores) === 0): ?>
+
+            <p>Para registrar una incidencia necesitas tener al menos una víctima y un agresor registrados.</p>
+
+        <?php else: ?>
+
+            <label>Fecha de los hechos</label>
+            <input type="date" name="fecha" value="<?= e($datos['incidencia']['fecha']) ?>">
+
+            <label>Lugar de los hechos</label>
+            <input type="text" name="lugar" value="<?= e($datos['incidencia']['lugar']) ?>">
+
+            <label>Descripción de lo ocurrido</label>
+            <textarea name="descripcion"><?= e($datos['incidencia']['descripcion']) ?></textarea>
+
+            <label>Víctima</label>
+            <select name="id_victima">
+                <option value="">Seleccionar...</option>
+                <?php foreach ($victimas as $v): ?>
+                    <option value="<?= e($v['id']) ?>" <?= ($v['id'] === $datos['incidencia']['id_victima']) ? 'selected' : '' ?>>
+                        <?= e($v['id']) ?> - <?= e($v['nombre']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
+            <label>Agresor</label>
+            <select name="id_agresor">
+                <option value="">Seleccionar...</option>
+                <?php foreach ($agresores as $a): ?>
+                    <option value="<?= e($a['id']) ?>" <?= ($a['id'] === $datos['incidencia']['id_agresor']) ? 'selected' : '' ?>>
+                        <?= e($a['id']) ?> - <?= e($a['nombre']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
+            <h3>Indicadores de riesgo</h3>
+
+            <?php foreach (INDICADORES as $clave => $texto): ?>
+                <label><?= e($texto) ?></label>
+                <select name="indicadores[<?= e($clave) ?>]">
+                    <?php foreach (RESPUESTAS as $opcion): ?>
+                        <option value="<?= e($opcion) ?>" <?= (($datos['incidencia']['indicadores'][$clave] ?? 'Desconocido') === $opcion) ? 'selected' : '' ?>>
+                            <?= e($opcion) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            <?php endforeach; ?>
+
+            <label>Observaciones</label>
+            <textarea name="observaciones"><?= e($datos['incidencia']['observaciones']) ?></textarea>
+
+            <button name="guardar">Registrar incidencia</button>
+
+        <?php endif; ?>
+
+        <h2>Incidencias registradas</h2>
+
+        <?php if (count($incidencias) === 0): ?>
+            <p>No hay incidencias registradas todavía.</p>
+        <?php else: ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Fecha</th>
+                        <th>Lugar</th>
+                        <th>Víctima</th>
+                        <th>Agresor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($incidencias as $inc): ?>
+                        <tr>
+                            <td><?= e($inc['id']) ?></td>
+                            <td><?= e($inc['fecha'] ?? '') ?></td>
+                            <td><?= e($inc['lugar'] ?? '') ?></td>
+                            <td><?= e($inc['id_victima'] ?? '') ?></td>
+                            <td><?= e($inc['id_agresor'] ?? '') ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+
+        <?php require __DIR__ . '/menu.html'; ?>
+
+    </form>
+
+</body>
+</html>

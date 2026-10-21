@@ -1,0 +1,30 @@
+[
+    {
+        "id": "2",
+        "nombre": "Pepe Villa",
+        "antecedentes": "Es mu malo",
+        "indicadores": {
+            "violencia_previa": "Desconocido",
+            "amenazas_graves": "Desconocido",
+            "armas": "Desconocido",
+            "incumplimiento": "Desconocido",
+            "acoso": "Desconocido",
+            "sustancias": "Desconocido"
+        },
+        "observaciones": "NA que decil"
+    },
+    {
+        "id": "3",
+        "nombre": "Rafa Mir",
+        "antecedentes": "le pega a la novia",
+        "indicadores": {
+            "violencia_previa": "No",
+            "amenazas_graves": "Sí",
+            "armas": "Sí",
+            "incumplimiento": "No",
+            "acoso": "No",
+            "sustancias": "Desconocido"
+        },
+        "observaciones": "Es muy malio"
+    }
+]

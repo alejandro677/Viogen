@@ -1,0 +1,25 @@
+[
+    {
+        "id": "INC-6ad7486313e8c",
+        "fecha": "2026-10-06",
+        "lugar": "BAdajoz",
+        "descripcion": "se matan",
+        "id_victima": "1",
+        "id_agresor": "2",
+        "indicadores": {
+            "amenazas_graves": "Sí",
+            "violencia_previa": "No",
+            "aumento_violencia": "Sí",
+            "lesiones": "Sí",
+            "amenazas_muerte": "Sí",
+            "acoso": "Sí",
+            "incumplimiento": "No",
+            "armas": "Sí",
+            "separacion": "No",
+            "violencia_terceros": "No",
+            "sustancias": "Sí",
+            "menores": "Sí"
+        },
+        "observaciones": "qsbngwsihbgw"
+    }
+]

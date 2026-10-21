@@ -1,0 +1,203 @@
+/* Estilos sencillos para el proyecto académico VioGén */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 28px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #243247;
+    background-color: #f3f6fa;
+}
+
+h1 {
+    margin: 0 0 24px;
+    padding: 18px 22px;
+    color: #ffffff;
+    background-color: #174a78;
+    border-radius: 8px;
+    font-size: 28px;
+}
+
+h2 {
+    margin-top: 28px;
+    padding-bottom: 8px;
+    color: #174a78;
+    border-bottom: 2px solid #d8e3ef;
+    font-size: 21px;
+}
+
+p {
+    margin: 12px 0;
+}
+
+.aviso {
+    padding: 14px 16px;
+    background-color: #fff4d6;
+    border-left: 5px solid #d49b19;
+    border-radius: 4px;
+}
+
+.mensaje {
+    padding: 12px 15px;
+    color: #155b36;
+    background-color: #e3f5e9;
+    border: 1px solid #b9e3c7;
+    border-radius: 5px;
+}
+
+form {
+    margin: 18px 0;
+    padding: 22px;
+    background-color: #ffffff;
+    border: 1px solid #dce4ed;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(25, 50, 75, 0.06);
+}
+
+label {
+    display: block;
+    margin: 14px 0 5px;
+    font-weight: bold;
+    color: #33465c;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="search"],
+select,
+textarea {
+    display: block;
+    width: 100%;
+    max-width: 650px;
+    padding: 10px 12px;
+    font: inherit;
+    color: #243247;
+    background-color: #ffffff;
+    border: 1px solid #b9c7d6;
+    border-radius: 5px;
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid #9ac5eb;
+    border-color: #286da8;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    margin-right: 7px;
+}
+
+button,
+input[type="submit"] {
+    margin: 12px 8px 4px 0;
+    padding: 10px 16px;
+    font: inherit;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #21649a;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #174a78;
+}
+
+button:focus-visible,
+input[type="submit"]:focus-visible {
+    outline: 3px solid #9ac5eb;
+    outline-offset: 2px;
+}
+
+/* Navegación compartida */
+form h2 + button,
+form button[name="inicio"],
+form button[name="incidencias"],
+form button[name="victimas"],
+form button[name="agresores"],
+form button[name="valoracion"],
+form button[name="informe"] {
+    margin: 5px 6px 5px 0;
+}
+
+table {
+    width: 100%;
+    margin: 16px 0 24px;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+th,
+td {
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid #d5dee8;
+    overflow-wrap: anywhere;
+}
+
+th {
+    color: #ffffff;
+    background-color: #285b83;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f1f5f9;
+}
+
+tbody tr:hover {
+    background-color: #e6f1fb;
+}
+
+ul {
+    padding-left: 24px;
+}
+
+li {
+    margin: 5px 0;
+}
+
+@media (max-width: 700px) {
+    body {
+        margin: 0 auto;
+        padding: 14px;
+    }
+
+    h1 {
+        padding: 15px;
+        font-size: 23px;
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: normal;
+    }
+
+    button,
+    input[type="submit"] {
+        margin-bottom: 8px;
+    }
+}

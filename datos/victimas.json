@@ -1,0 +1,14 @@
+[
+    {
+        "id": "1",
+        "nombre": "Juan PEre",
+        "edad": "32",
+        "observaciones": "Le pegan en casa"
+    },
+    {
+        "id": "4",
+        "nombre": "Josefa pere",
+        "edad": "45",
+        "observaciones": "Le pegan en casa"
+    }
+]
