@@ -13,38 +13,38 @@
 
     <p>Registra únicamente datos ficticios. Los indicadores son orientativos y no sustituyen una valoración profesional.</p>
 
-    <?php if ($mensaje !== ''): ?>
-        <p class="mensaje"><?= e($mensaje) ?></p>
+    <?php if ($mensaje_usuario !== ''): ?>
+        <p class="mensaje"><?= escapar_html($mensaje_usuario) ?></p>
     <?php endif; ?>
 
     <form method="POST">
 
         <input type="hidden" name="pagina" value="incidencias">
-        <input type="hidden" name="datos" value="<?= e(json_encode($datos)) ?>">
+        <input type="hidden" name="datos" value="<?= escapar_html(json_encode($datos_formularios)) ?>">
 
         <h2>Registrar incidencia</h2>
 
-        <?php if (count($victimas) === 0 || count($agresores) === 0): ?>
+        <?php if (count($lista_victimas) === 0 || count($lista_agresores) === 0): ?>
 
             <p>Para registrar una incidencia necesitas tener al menos una víctima y un agresor registrados.</p>
 
         <?php else: ?>
 
             <label>Fecha de los hechos</label>
-            <input type="date" name="fecha" value="<?= e($datos['incidencia']['fecha']) ?>">
+            <input type="date" name="fecha" value="<?= escapar_html($datos_formularios['incidencia']['fecha']) ?>">
 
             <label>Lugar de los hechos</label>
-            <input type="text" name="lugar" value="<?= e($datos['incidencia']['lugar']) ?>">
+            <input type="text" name="lugar" value="<?= escapar_html($datos_formularios['incidencia']['lugar']) ?>">
 
             <label>Descripción de lo ocurrido</label>
-            <textarea name="descripcion"><?= e($datos['incidencia']['descripcion']) ?></textarea>
+            <textarea name="descripcion"><?= escapar_html($datos_formularios['incidencia']['descripcion']) ?></textarea>
 
             <label>Víctima</label>
             <select name="id_victima">
                 <option value="">Seleccionar...</option>
-                <?php foreach ($victimas as $v): ?>
-                    <option value="<?= e($v['id']) ?>" <?= ($v['id'] === $datos['incidencia']['id_victima']) ? 'selected' : '' ?>>
-                        <?= e($v['id']) ?> - <?= e($v['nombre']) ?>
+                <?php foreach ($lista_victimas as $victima_registrada): ?>
+                    <option value="<?= escapar_html($victima_registrada['id']) ?>" <?= ($victima_registrada['id'] === $datos_formularios['incidencia']['id_victima']) ? 'selected' : '' ?>>
+                        <?= escapar_html($victima_registrada['id']) ?> - <?= escapar_html($victima_registrada['nombre']) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -52,28 +52,28 @@
             <label>Agresor</label>
             <select name="id_agresor">
                 <option value="">Seleccionar...</option>
-                <?php foreach ($agresores as $a): ?>
-                    <option value="<?= e($a['id']) ?>" <?= ($a['id'] === $datos['incidencia']['id_agresor']) ? 'selected' : '' ?>>
-                        <?= e($a['id']) ?> - <?= e($a['nombre']) ?>
+                <?php foreach ($lista_agresores as $agresor_registrado): ?>
+                    <option value="<?= escapar_html($agresor_registrado['id']) ?>" <?= ($agresor_registrado['id'] === $datos_formularios['incidencia']['id_agresor']) ? 'selected' : '' ?>>
+                        <?= escapar_html($agresor_registrado['id']) ?> - <?= escapar_html($agresor_registrado['nombre']) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
 
             <h3>Indicadores de riesgo</h3>
 
-            <?php foreach (INDICADORES as $clave => $texto): ?>
-                <label><?= e($texto) ?></label>
-                <select name="indicadores[<?= e($clave) ?>]">
-                    <?php foreach (RESPUESTAS as $opcion): ?>
-                        <option value="<?= e($opcion) ?>" <?= (($datos['incidencia']['indicadores'][$clave] ?? 'Desconocido') === $opcion) ? 'selected' : '' ?>>
-                            <?= e($opcion) ?>
+            <?php foreach (INDICADORES_INCIDENCIA as $clave_indicador => $texto_indicador): ?>
+                <label><?= escapar_html($texto_indicador) ?></label>
+                <select name="indicadores[<?= escapar_html($clave_indicador) ?>]">
+                    <?php foreach (RESPUESTAS_PERMITIDAS as $respuesta_posible): ?>
+                        <option value="<?= escapar_html($respuesta_posible) ?>" <?= (($datos_formularios['incidencia']['indicadores'][$clave_indicador] ?? 'Desconocido') === $respuesta_posible) ? 'selected' : '' ?>>
+                            <?= escapar_html($respuesta_posible) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
             <?php endforeach; ?>
 
             <label>Observaciones</label>
-            <textarea name="observaciones"><?= e($datos['incidencia']['observaciones']) ?></textarea>
+            <textarea name="observaciones"><?= escapar_html($datos_formularios['incidencia']['observaciones']) ?></textarea>
 
             <button name="guardar">Registrar incidencia</button>
 
@@ -81,7 +81,7 @@
 
         <h2>Incidencias registradas</h2>
 
-        <?php if (count($incidencias) === 0): ?>
+        <?php if (count($lista_incidencias) === 0): ?>
             <p>No hay incidencias registradas todavía.</p>
         <?php else: ?>
             <table>
@@ -95,20 +95,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($incidencias as $inc): ?>
+                    <?php foreach ($lista_incidencias as $incidencia_registrada): ?>
                         <tr>
-                            <td><?= e($inc['id']) ?></td>
-                            <td><?= e($inc['fecha'] ?? '') ?></td>
-                            <td><?= e($inc['lugar'] ?? '') ?></td>
-                            <td><?= e($inc['id_victima'] ?? '') ?></td>
-                            <td><?= e($inc['id_agresor'] ?? '') ?></td>
+                            <td><?= escapar_html($incidencia_registrada['id']) ?></td>
+                            <td><?= escapar_html($incidencia_registrada['fecha'] ?? '') ?></td>
+                            <td><?= escapar_html($incidencia_registrada['lugar'] ?? '') ?></td>
+                            <td><?= escapar_html($incidencia_registrada['id_victima'] ?? '') ?></td>
+                            <td><?= escapar_html($incidencia_registrada['id_agresor'] ?? '') ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         <?php endif; ?>
 
-        <?php require __DIR__ . '/menu.html'; ?>
+        <?php require 'html/menu.html'; ?>
 
     </form>
 

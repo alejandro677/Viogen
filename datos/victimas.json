@@ -1,14 +1,19 @@
 [
     {
         "id": "1",
-        "nombre": "Juan PEre",
-        "edad": "32",
-        "observaciones": "Le pegan en casa"
-    },
-    {
-        "id": "4",
-        "nombre": "Josefa pere",
-        "edad": "45",
-        "observaciones": "Le pegan en casa"
+        "nombre": "Juan Perez",
+        "edad": "34",
+        "indicadores": {
+            "convivencia_alejamiento": "Sí",
+            "retirada_denuncia": "No",
+            "conductas_inseguras": "Desconocido",
+            "discapacidad_enfermedad": "Desconocido",
+            "falta_apoyo": "Desconocido",
+            "ideas_suicidio": "Desconocido",
+            "adicciones": "Sí",
+            "menores_cargo": "Desconocido",
+            "conflicto_cuidado_hijos": "Desconocido"
+        },
+        "observaciones": "Lesiones en el brazo"
     }
 ]

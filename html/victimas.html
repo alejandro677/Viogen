@@ -13,51 +13,51 @@
 
     <p>Registra únicamente datos ficticios.</p>
 
-    <?php if ($mensaje !== ''): ?>
-        <p class="mensaje"><?= e($mensaje) ?></p>
+    <?php if ($mensaje_usuario !== ''): ?>
+        <p class="mensaje"><?= escapar_html($mensaje_usuario) ?></p>
     <?php endif; ?>
 
     <form method="POST">
 
         <input type="hidden" name="pagina" value="victimas">
-        <input type="hidden" name="datos" value="<?= e(json_encode($datos)) ?>">
+        <input type="hidden" name="datos" value="<?= escapar_html(json_encode($datos_formularios)) ?>">
 
         <h2>Registrar o modificar víctima</h2>
 
         <label>Identificador único</label>
-        <input type="text" name="id" value="<?= e($datos['victima']['id']) ?>">
+        <input type="text" name="id" value="<?= escapar_html($datos_formularios['victima']['id']) ?>">
 
         <label>Nombre y apellidos ficticios</label>
-        <input type="text" name="nombre" value="<?= e($datos['victima']['nombre']) ?>">
+        <input type="text" name="nombre" value="<?= escapar_html($datos_formularios['victima']['nombre']) ?>">
 
         <label>Edad</label>
-        <input type="number" name="edad" min="0" value="<?= e($datos['victima']['edad']) ?>">
+        <input type="number" name="edad" min="0" value="<?= escapar_html($datos_formularios['victima']['edad']) ?>">
 
         <h3>Indicadores relacionados con el caso</h3>
         <p>Selecciona Sí, No o Desconocido para cada indicador. Estos campos son orientativos y no sustituyen una valoración profesional.</p>
 
-        <?php foreach (INDICADORES_VICTIMA as $clave => $texto): ?>
+        <?php foreach (INDICADORES_VICTIMA as $clave_indicador => $texto_indicador): ?>
             <fieldset>
-                <legend><?= e($texto) ?></legend>
-                <?php foreach (RESPUESTAS as $opcion): ?>
+                <legend><?= escapar_html($texto_indicador) ?></legend>
+                <?php foreach (RESPUESTAS_PERMITIDAS as $respuesta_posible): ?>
                     <label>
-                        <input type="radio" name="indicadores[<?= e($clave) ?>]" value="<?= e($opcion) ?>"
-                            <?= (($datos['victima']['indicadores'][$clave] ?? 'Desconocido') === $opcion) ? 'checked' : '' ?>>
-                        <?= e($opcion) ?>
+                        <input type="radio" name="indicadores[<?= escapar_html($clave_indicador) ?>]" value="<?= escapar_html($respuesta_posible) ?>"
+                            <?= (($datos_formularios['victima']['indicadores'][$clave_indicador] ?? 'Desconocido') === $respuesta_posible) ? 'checked' : '' ?>>
+                        <?= escapar_html($respuesta_posible) ?>
                     </label>
                 <?php endforeach; ?>
             </fieldset>
         <?php endforeach; ?>
 
         <label>Observaciones</label>
-        <textarea name="observaciones"><?= e($datos['victima']['observaciones']) ?></textarea>
+        <textarea name="observaciones"><?= escapar_html($datos_formularios['victima']['observaciones']) ?></textarea>
 
         <button name="registrar">Registrar</button>
         <button name="modificar">Modificar</button>
 
         <h2>Víctimas registradas</h2>
 
-        <?php if (count($victimas) === 0): ?>
+        <?php if (count($lista_victimas) === 0): ?>
             <p>No hay víctimas registradas todavía.</p>
         <?php else: ?>
             <table>
@@ -71,20 +71,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($victimas as $v): ?>
+                    <?php foreach ($lista_victimas as $victima_registrada): ?>
                         <tr>
-                            <td><?= e($v['id']) ?></td>
-                            <td><?= e($v['nombre']) ?></td>
-                            <td><?= e($v['edad']) ?></td>
-                            <td><?= e($v['observaciones']) ?></td>
-                            <td><button name="editar" value="<?= e($v['id']) ?>">Cargar</button></td>
+                            <td><?= escapar_html($victima_registrada['id']) ?></td>
+                            <td><?= escapar_html($victima_registrada['nombre']) ?></td>
+                            <td><?= escapar_html($victima_registrada['edad']) ?></td>
+                            <td><?= escapar_html($victima_registrada['observaciones']) ?></td>
+                            <td><button name="editar" value="<?= escapar_html($victima_registrada['id']) ?>">Cargar</button></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         <?php endif; ?>
 
-        <?php require __DIR__ . '/menu.html'; ?>
+        <?php require 'html/menu.html'; ?>
 
     </form>
 

@@ -51,9 +51,9 @@
     <form method="POST">
 
         <input type="hidden" name="pagina" value="inicio">
-        <input type="hidden" name="datos" value="<?= e(json_encode($datos)) ?>">
+        <input type="hidden" name="datos" value="<?= escapar_html(json_encode($datos_formularios)) ?>">
 
-        <?php require __DIR__ . '/menu.html'; ?>
+        <?php require 'html/menu.html'; ?>
 
     </form>
 

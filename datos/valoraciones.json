@@ -1,1 +1,41 @@
-[]
+[
+    {
+        "id": "VAL-6ad9e864cba5e",
+        "id_incidencia": "INC-6ad9e84cafa7b",
+        "fecha_valoracion": "2026-10-22 12:41:40",
+        "respuestas": {
+            "amenazas_graves": "Sí",
+            "violencia_previa": "No",
+            "aumento_violencia": "Desconocido",
+            "lesiones": "Desconocido",
+            "amenazas_muerte": "Sí",
+            "acoso": "Desconocido",
+            "incumplimiento": "Desconocido",
+            "armas": "Desconocido",
+            "separacion": "Desconocido",
+            "violencia_terceros": "Desconocido",
+            "sustancias": "Desconocido",
+            "menores": "Sí"
+        },
+        "detectados": [
+            "Existencia de amenazas graves",
+            "Amenazas de muerte",
+            "Amenazas o violencia que afecten a menores"
+        ],
+        "pendientes": [
+            "Aumento reciente de la frecuencia o gravedad",
+            "Agresiones físicas con lesiones",
+            "Acoso, persecución o control persistente",
+            "Incumplimiento de medidas de protección",
+            "Acceso a armas o amenazas con armas",
+            "Separación reciente o conflicto relacionado",
+            "Antecedentes de violencia hacia otras personas",
+            "Consumo problemático asociado a episodios violentos"
+        ],
+        "total_detectados": 3,
+        "total_pendientes": 8,
+        "nivel": "Medio",
+        "explicacion": "Se han detectado 3 de 12 indicadores y 8 están pendientes de confirmar. Regla didáctica: 0-2 Bajo, 3-5 Medio, 6-8 Alto, 9-12 Muy alto.",
+        "observaciones": ""
+    }
+]

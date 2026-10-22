@@ -13,16 +13,16 @@
 
     <p>Uso exclusivamente académico y con datos ficticios. No es una evaluación profesional ni reproduce el algoritmo oficial de VioGén.</p>
 
-    <?php if ($mensaje !== ''): ?>
-        <p class="mensaje"><?= e($mensaje) ?></p>
+    <?php if ($mensaje_usuario !== ''): ?>
+        <p class="mensaje"><?= escapar_html($mensaje_usuario) ?></p>
     <?php endif; ?>
 
     <form method="POST">
 
         <input type="hidden" name="pagina" value="valoracion">
-        <input type="hidden" name="datos" value="<?= e(json_encode($datos)) ?>">
+        <input type="hidden" name="datos" value="<?= escapar_html(json_encode($datos_formularios)) ?>">
 
-        <?php if (count($incidencias) === 0): ?>
+        <?php if (count($lista_incidencias) === 0): ?>
 
             <p>No hay incidencias registradas. Registra una incidencia antes de realizar una valoración.</p>
 
@@ -34,60 +34,60 @@
 
             <select name="id_incidencia">
                 <option value="">Seleccionar...</option>
-                <?php foreach ($incidencias as $inc): ?>
-                    <option value="<?= e($inc['id']) ?>" <?= ($inc['id'] === $datos['valoracion']['id_incidencia']) ? 'selected' : '' ?>>
-                        <?= e($inc['id']) ?> - <?= e($inc['fecha'] ?? '') ?> - <?= e($inc['lugar'] ?? '') ?>
+                <?php foreach ($lista_incidencias as $incidencia_registrada): ?>
+                    <option value="<?= escapar_html($incidencia_registrada['id']) ?>" <?= ($incidencia_registrada['id'] === $datos_formularios['valoracion']['id_incidencia']) ? 'selected' : '' ?>>
+                        <?= escapar_html($incidencia_registrada['id']) ?> - <?= escapar_html($incidencia_registrada['fecha'] ?? '') ?> - <?= escapar_html($incidencia_registrada['lugar'] ?? '') ?>
                     </option>
                 <?php endforeach; ?>
             </select>
 
             <button name="consultar">Consultar incidencia</button>
 
-            <?php if ($incidencia_valoracion !== null): ?>
+            <?php if ($incidencia_a_valorar !== null): ?>
 
                 <!-- INFORMACION RELACIONADA -->
 
                 <h2>Información de la incidencia</h2>
 
                 <ul>
-                    <li><strong>Código:</strong> <?= e($incidencia_valoracion['id']) ?></li>
-                    <li><strong>Fecha:</strong> <?= e($incidencia_valoracion['fecha'] ?? '') ?></li>
-                    <li><strong>Lugar:</strong> <?= e($incidencia_valoracion['lugar'] ?? '') ?></li>
-                    <li><strong>Descripción:</strong> <?= e($incidencia_valoracion['descripcion'] ?? '') ?></li>
+                    <li><strong>Código:</strong> <?= escapar_html($incidencia_a_valorar['id']) ?></li>
+                    <li><strong>Fecha:</strong> <?= escapar_html($incidencia_a_valorar['fecha'] ?? '') ?></li>
+                    <li><strong>Lugar:</strong> <?= escapar_html($incidencia_a_valorar['lugar'] ?? '') ?></li>
+                    <li><strong>Descripción:</strong> <?= escapar_html($incidencia_a_valorar['descripcion'] ?? '') ?></li>
                     <li><strong>Víctima:</strong>
-                        <?php if ($victima_valoracion !== null): ?>
-                            <?= e($victima_valoracion['id']) ?> - <?= e($victima_valoracion['nombre'] ?? '') ?>
+                        <?php if ($victima_a_valorar !== null): ?>
+                            <?= escapar_html($victima_a_valorar['id']) ?> - <?= escapar_html($victima_a_valorar['nombre'] ?? '') ?>
                         <?php else: ?>
                             no encontrada en los registros
                         <?php endif; ?>
                     </li>
                     <li><strong>Agresor:</strong>
-                        <?php if ($agresor_valoracion !== null): ?>
-                            <?= e($agresor_valoracion['id']) ?> - <?= e($agresor_valoracion['nombre'] ?? '') ?>
+                        <?php if ($agresor_a_valorar !== null): ?>
+                            <?= escapar_html($agresor_a_valorar['id']) ?> - <?= escapar_html($agresor_a_valorar['nombre'] ?? '') ?>
                         <?php else: ?>
                             no encontrado en los registros
                         <?php endif; ?>
                     </li>
-                    <li><strong>Observaciones:</strong> <?= e($incidencia_valoracion['observaciones'] ?? '') ?></li>
+                    <li><strong>Observaciones:</strong> <?= escapar_html($incidencia_a_valorar['observaciones'] ?? '') ?></li>
                 </ul>
 
-                <!-- PASO 2: INDICADORES -->
+                <!-- PASO 2: INDICADORES_INCIDENCIA -->
 
                 <h2>2. Indicadores de riesgo</h2>
 
-                <?php foreach (INDICADORES as $clave => $texto): ?>
-                    <label><?= e($texto) ?></label>
-                    <select name="indicadores[<?= e($clave) ?>]">
-                        <?php foreach (RESPUESTAS as $opcion): ?>
-                            <option value="<?= e($opcion) ?>" <?= (($datos['valoracion']['indicadores'][$clave] ?? 'Desconocido') === $opcion) ? 'selected' : '' ?>>
-                                <?= e($opcion) ?>
+                <?php foreach (INDICADORES_INCIDENCIA as $clave_indicador => $texto_indicador): ?>
+                    <label><?= escapar_html($texto_indicador) ?></label>
+                    <select name="indicadores[<?= escapar_html($clave_indicador) ?>]">
+                        <?php foreach (RESPUESTAS_PERMITIDAS as $respuesta_posible): ?>
+                            <option value="<?= escapar_html($respuesta_posible) ?>" <?= (($datos_formularios['valoracion']['indicadores'][$clave_indicador] ?? 'Desconocido') === $respuesta_posible) ? 'selected' : '' ?>>
+                                <?= escapar_html($respuesta_posible) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                 <?php endforeach; ?>
 
                 <label>Observaciones</label>
-                <textarea name="observaciones"><?= e($datos['valoracion']['observaciones']) ?></textarea>
+                <textarea name="observaciones"><?= escapar_html($datos_formularios['valoracion']['observaciones']) ?></textarea>
 
                 <button name="guardar">Guardar valoración</button>
 
@@ -95,35 +95,35 @@
 
             <!-- RESULTADO -->
 
-            <?php if ($valoracion_guardada !== null): ?>
+            <?php if ($valoracion_recien_guardada !== null): ?>
 
                 <h2>Resultado académico orientativo</h2>
 
                 <p class="mensaje">
-                    <strong>Nivel: <?= e($valoracion_guardada['nivel']) ?></strong><br>
-                    <?= e($valoracion_guardada['explicacion']) ?>
+                    <strong>Nivel: <?= escapar_html($valoracion_recien_guardada['nivel']) ?></strong><br>
+                    <?= escapar_html($valoracion_recien_guardada['explicacion']) ?>
                 </p>
 
                 <h3>Factores detectados</h3>
 
-                <?php if (count($valoracion_guardada['detectados']) === 0): ?>
+                <?php if (count($valoracion_recien_guardada['detectados']) === 0): ?>
                     <p>No se ha detectado ningún factor.</p>
                 <?php else: ?>
                     <ul>
-                        <?php foreach ($valoracion_guardada['detectados'] as $factor): ?>
-                            <li><?= e($factor) ?></li>
+                        <?php foreach ($valoracion_recien_guardada['detectados'] as $indicador_detectado): ?>
+                            <li><?= escapar_html($indicador_detectado) ?></li>
                         <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>
 
                 <h3>Información pendiente</h3>
 
-                <?php if (count($valoracion_guardada['pendientes']) === 0): ?>
+                <?php if (count($valoracion_recien_guardada['pendientes']) === 0): ?>
                     <p>No hay información pendiente.</p>
                 <?php else: ?>
                     <ul>
-                        <?php foreach ($valoracion_guardada['pendientes'] as $pendiente): ?>
-                            <li><?= e($pendiente) ?></li>
+                        <?php foreach ($valoracion_recien_guardada['pendientes'] as $indicador_pendiente): ?>
+                            <li><?= escapar_html($indicador_pendiente) ?></li>
                         <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>
@@ -132,7 +132,7 @@
 
         <?php endif; ?>
 
-        <?php require __DIR__ . '/menu.html'; ?>
+        <?php require 'html/menu.html'; ?>
 
     </form>
 

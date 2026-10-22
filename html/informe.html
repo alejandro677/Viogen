@@ -13,16 +13,16 @@
 
     <p>Uso exclusivamente académico y con datos ficticios. El informe se genera a partir de los datos guardados.</p>
 
-    <?php if ($mensaje !== ''): ?>
-        <p class="mensaje"><?= e($mensaje) ?></p>
+    <?php if ($mensaje_usuario !== ''): ?>
+        <p class="mensaje"><?= escapar_html($mensaje_usuario) ?></p>
     <?php endif; ?>
 
     <form method="POST">
 
         <input type="hidden" name="pagina" value="informe">
-        <input type="hidden" name="datos" value="<?= e(json_encode($datos)) ?>">
+        <input type="hidden" name="datos" value="<?= escapar_html(json_encode($datos_formularios)) ?>">
 
-        <?php if (count($incidencias) === 0): ?>
+        <?php if (count($lista_incidencias) === 0): ?>
 
             <p>No hay incidencias registradas. Registra una incidencia para poder generar un informe.</p>
 
@@ -32,9 +32,9 @@
 
             <select name="id_incidencia">
                 <option value="">Seleccionar...</option>
-                <?php foreach ($incidencias as $inc): ?>
-                    <option value="<?= e($inc['id']) ?>" <?= ($inc['id'] === $datos['informe']['id_incidencia']) ? 'selected' : '' ?>>
-                        <?= e($inc['id']) ?> - <?= e($inc['fecha'] ?? '') ?> - <?= e($inc['lugar'] ?? '') ?>
+                <?php foreach ($lista_incidencias as $incidencia_registrada): ?>
+                    <option value="<?= escapar_html($incidencia_registrada['id']) ?>" <?= ($incidencia_registrada['id'] === $datos_formularios['informe']['id_incidencia']) ? 'selected' : '' ?>>
+                        <?= escapar_html($incidencia_registrada['id']) ?> - <?= escapar_html($incidencia_registrada['fecha'] ?? '') ?> - <?= escapar_html($incidencia_registrada['lugar'] ?? '') ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -43,29 +43,29 @@
 
         <?php endif; ?>
 
-        <?php if ($informe !== null): ?>
+        <?php if ($datos_informe !== null): ?>
 
             <hr>
 
-            <h2>Informe de la incidencia <?= e($informe['incidencia']['id']) ?></h2>
+            <h2>Informe de la incidencia <?= escapar_html($datos_informe['incidencia']['id']) ?></h2>
 
             <!-- 1. IDENTIFICACION DEL CASO -->
 
             <h3>1. Identificación del caso</h3>
 
             <ul>
-                <li><strong>Código:</strong> <?= e($informe['incidencia']['id']) ?></li>
-                <li><strong>Fecha de los hechos:</strong> <?= e($informe['incidencia']['fecha'] ?? '') ?></li>
+                <li><strong>Código:</strong> <?= escapar_html($datos_informe['incidencia']['id']) ?></li>
+                <li><strong>Fecha de los hechos:</strong> <?= escapar_html($datos_informe['incidencia']['fecha'] ?? '') ?></li>
                 <li><strong>Víctima:</strong>
-                    <?php if ($informe['victima'] !== null): ?>
-                        <?= e($informe['victima']['id']) ?> - <?= e($informe['victima']['nombre'] ?? '') ?>
+                    <?php if ($datos_informe['victima'] !== null): ?>
+                        <?= escapar_html($datos_informe['victima']['id']) ?> - <?= escapar_html($datos_informe['victima']['nombre'] ?? '') ?>
                     <?php else: ?>
                         no encontrada en los registros
                     <?php endif; ?>
                 </li>
                 <li><strong>Agresor:</strong>
-                    <?php if ($informe['agresor'] !== null): ?>
-                        <?= e($informe['agresor']['id']) ?> - <?= e($informe['agresor']['nombre'] ?? '') ?>
+                    <?php if ($datos_informe['agresor'] !== null): ?>
+                        <?= escapar_html($datos_informe['agresor']['id']) ?> - <?= escapar_html($datos_informe['agresor']['nombre'] ?? '') ?>
                     <?php else: ?>
                         no encontrado en los registros
                     <?php endif; ?>
@@ -76,14 +76,14 @@
 
             <h3>2. Resumen de los hechos</h3>
 
-            <p><strong>Lugar:</strong> <?= e($informe['incidencia']['lugar'] ?? '') ?></p>
-            <p><?= e($informe['incidencia']['descripcion'] ?? '') ?></p>
+            <p><strong>Lugar:</strong> <?= escapar_html($datos_informe['incidencia']['lugar'] ?? '') ?></p>
+            <p><?= escapar_html($datos_informe['incidencia']['descripcion'] ?? '') ?></p>
 
-            <!-- 3. INDICADORES DE RIESGO -->
+            <!-- 3. INDICADORES_INCIDENCIA DE RIESGO -->
 
             <h3>3. Indicadores de riesgo</h3>
 
-            <?php if ($informe['valoracion'] === null): ?>
+            <?php if ($datos_informe['valoracion'] === null): ?>
                 <p>Esta incidencia todavía no tiene valoración. Se muestran las respuestas registradas con la incidencia.</p>
             <?php endif; ?>
 
@@ -95,21 +95,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach (INDICADORES as $clave => $texto): ?>
+                    <?php foreach (INDICADORES_INCIDENCIA as $clave_indicador => $texto_indicador): ?>
                         <tr>
-                            <td><?= e($texto) ?></td>
-                            <td><?= e($informe['respuestas'][$clave] ?? 'Desconocido') ?></td>
+                            <td><?= escapar_html($texto_indicador) ?></td>
+                            <td><?= escapar_html($datos_informe['respuestas_indicadores'][$clave_indicador] ?? 'Desconocido') ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
 
-            <?php if (($informe['incidencia']['observaciones'] ?? '') !== ''): ?>
-                <p><strong>Observaciones de la incidencia:</strong> <?= e($informe['incidencia']['observaciones']) ?></p>
+            <?php if (($datos_informe['incidencia']['observaciones'] ?? '') !== ''): ?>
+                <p><strong>Observaciones de la incidencia:</strong> <?= escapar_html($datos_informe['incidencia']['observaciones']) ?></p>
             <?php endif; ?>
 
-            <?php if (($informe['valoracion']['observaciones'] ?? '') !== ''): ?>
-                <p><strong>Observaciones de la valoración:</strong> <?= e($informe['valoracion']['observaciones']) ?></p>
+            <?php if (($datos_informe['valoracion']['observaciones'] ?? '') !== ''): ?>
+                <p><strong>Observaciones de la valoración:</strong> <?= escapar_html($datos_informe['valoracion']['observaciones']) ?></p>
             <?php endif; ?>
 
             <!-- 4. FACTORES DETECTADOS Y PENDIENTES -->
@@ -118,24 +118,24 @@
 
             <p><strong>Factores detectados:</strong></p>
 
-            <?php if (count($informe['detectados']) === 0): ?>
+            <?php if (count($datos_informe['indicadores_detectados']) === 0): ?>
                 <p>No se ha detectado ningún factor.</p>
             <?php else: ?>
                 <ul>
-                    <?php foreach ($informe['detectados'] as $factor): ?>
-                        <li><?= e($factor) ?></li>
+                    <?php foreach ($datos_informe['indicadores_detectados'] as $indicador_detectado): ?>
+                        <li><?= escapar_html($indicador_detectado) ?></li>
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
 
             <p><strong>Información pendiente (desconocida):</strong></p>
 
-            <?php if (count($informe['pendientes']) === 0): ?>
+            <?php if (count($datos_informe['indicadores_pendientes']) === 0): ?>
                 <p>No hay información pendiente.</p>
             <?php else: ?>
                 <ul>
-                    <?php foreach ($informe['pendientes'] as $pendiente): ?>
-                        <li><?= e($pendiente) ?></li>
+                    <?php foreach ($datos_informe['indicadores_pendientes'] as $indicador_pendiente): ?>
+                        <li><?= escapar_html($indicador_pendiente) ?></li>
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
@@ -144,21 +144,21 @@
 
             <h3>5. Valoración final</h3>
 
-            <?php if ($informe['valoracion'] === null): ?>
+            <?php if ($datos_informe['valoracion'] === null): ?>
                 <p>No hay valoración guardada para esta incidencia. Realízala en la sección Valoración.</p>
             <?php else: ?>
                 <p class="mensaje">
-                    <strong>Resultado académico orientativo: <?= e($informe['valoracion']['nivel'] ?? '') ?></strong><br>
-                    <?= e($informe['valoracion']['explicacion'] ?? '') ?>
+                    <strong>Resultado académico orientativo: <?= escapar_html($datos_informe['valoracion']['nivel'] ?? '') ?></strong><br>
+                    <?= escapar_html($datos_informe['valoracion']['explicacion'] ?? '') ?>
                 </p>
-                <p><strong>Fecha de la valoración:</strong> <?= e($informe['valoracion']['fecha_valoracion'] ?? '') ?></p>
+                <p><strong>Fecha de la valoración:</strong> <?= escapar_html($datos_informe['valoracion']['fecha_valoracion'] ?? '') ?></p>
             <?php endif; ?>
 
             <!-- 6. OBSERVACIONES -->
 
             <h3>6. Observaciones</h3>
 
-            <p><strong>Fecha de elaboración del informe:</strong> <?= e($informe['fecha_elaboracion']) ?></p>
+            <p><strong>Fecha de elaboración del informe:</strong> <?= escapar_html($datos_informe['fecha_elaboracion']) ?></p>
 
             <p class="mensaje">
                 Este informe tiene una finalidad exclusivamente académica. El resultado es una
@@ -168,7 +168,7 @@
 
         <?php endif; ?>
 
-        <?php require __DIR__ . '/menu.html'; ?>
+        <?php require 'html/menu.html'; ?>
 
     </form>
 

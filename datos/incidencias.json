@@ -1,25 +1,25 @@
 [
     {
-        "id": "INC-6ad7486313e8c",
-        "fecha": "2026-10-06",
-        "lugar": "BAdajoz",
-        "descripcion": "se matan",
+        "id": "INC-6ad9e84cafa7b",
+        "fecha": "2026-10-13",
+        "lugar": "Badajoz",
+        "descripcion": "Disputa de trafico",
         "id_victima": "1",
-        "id_agresor": "2",
+        "id_agresor": "1",
         "indicadores": {
             "amenazas_graves": "Sí",
             "violencia_previa": "No",
-            "aumento_violencia": "Sí",
-            "lesiones": "Sí",
+            "aumento_violencia": "Desconocido",
+            "lesiones": "Desconocido",
             "amenazas_muerte": "Sí",
-            "acoso": "Sí",
-            "incumplimiento": "No",
-            "armas": "Sí",
-            "separacion": "No",
-            "violencia_terceros": "No",
-            "sustancias": "Sí",
+            "acoso": "Desconocido",
+            "incumplimiento": "Desconocido",
+            "armas": "Desconocido",
+            "separacion": "Desconocido",
+            "violencia_terceros": "Desconocido",
+            "sustancias": "Desconocido",
             "menores": "Sí"
         },
-        "observaciones": "qsbngwsihbgw"
+        "observaciones": ""
     }
 ]

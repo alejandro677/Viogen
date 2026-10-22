@@ -1,20 +1,20 @@
 <?php
-// FUNCIONES COMUNES DEL PROYECTO
+// FUNCIONES Y CONSTANTES COMUNES DEL PROYECTO
 
-// ARCHIVOS JSON (datos persistentes)
+// RUTAS DE LOS ARCHIVOS JSON (datos persistentes)
 
-const ARCHIVO_VICTIMAS = 'datos/victimas.json';
-const ARCHIVO_AGRESORES = 'datos/agresores.json';
-const ARCHIVO_INCIDENCIAS = 'datos/incidencias.json';
-const ARCHIVO_VALORACIONES = 'datos/valoraciones.json';
+const RUTA_ARCHIVO_VICTIMAS = 'datos/victimas.json';
+const RUTA_ARCHIVO_AGRESORES = 'datos/agresores.json';
+const RUTA_ARCHIVO_INCIDENCIAS = 'datos/incidencias.json';
+const RUTA_ARCHIVO_VALORACIONES = 'datos/valoraciones.json';
 
-// RESPUESTAS PERMITIDAS EN LOS INDICADORES
+// RESPUESTAS QUE SE PUEDEN ELEGIR EN CADA INDICADOR
 
-const RESPUESTAS = ['Sí', 'No', 'Desconocido'];
+const RESPUESTAS_PERMITIDAS = ['Sí', 'No', 'Desconocido'];
 
 // INDICADORES DE RIESGO DE LA INCIDENCIA Y DE LA VALORACION
 
-const INDICADORES = [
+const INDICADORES_INCIDENCIA = [
     'amenazas_graves' => 'Existencia de amenazas graves',
     'violencia_previa' => 'Episodios previos de violencia',
     'aumento_violencia' => 'Aumento reciente de la frecuencia o gravedad',
@@ -40,13 +40,13 @@ const INDICADORES_VICTIMA = [
     'ideas_suicidio' => 'Indicador 6. Muestra ideas o intentos de suicidio',
     'adicciones' => 'Indicador 7. Presenta adicción o abuso de alcohol, drogas o fármacos',
     'menores_cargo' => 'Indicador 8. Tiene menores de edad a su cargo',
-    'conflicto_cuidado_hijos' => 'Indicador 1. Existe conflicto por las responsabilidades de cuidado de los hijos'
+    'conflicto_cuidado_hijos' => 'Indicador 9. Existe conflicto por las responsabilidades de cuidado de los hijos'
 ];
 
 // INDICADORES DEL AGRESOR (numeración interna del 1 al 18)
 
 const INDICADORES_AGRESOR = [
-    'celos' => 'Indicador 9. En los últimos seis meses muestra celos exagerados o sospechas de infidelidad',
+    'celos' => 'Indicador 1. En los últimos seis meses muestra celos exagerados o sospechas de infidelidad',
     'control' => 'Indicador 2. En los últimos seis meses muestra conductas de control',
     'acoso' => 'Indicador 3. En los últimos seis meses muestra conductas de acoso',
     'fugado' => 'Indicador 4. Está fugado o en paradero desconocido',
@@ -68,46 +68,46 @@ const INDICADORES_AGRESOR = [
 
 // ESCAPAR UN TEXTO PARA MOSTRARLO EN HTML
 
-function e($valor)
+function escapar_html($texto_a_escapar)
 {
-    return htmlspecialchars((string) $valor, ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars((string) $texto_a_escapar, ENT_QUOTES, 'UTF-8');
 }
 
 // LEER UN ARCHIVO JSON (si no existe, lo crea con un array vacío)
 
-function leer_json($archivo)
+function leer_archivo_json($ruta_archivo)
 {
-    $carpeta = dirname($archivo);
+    $carpeta_datos = dirname($ruta_archivo);
 
-    if (!is_dir($carpeta)) {
-        mkdir($carpeta);
+    if (!is_dir($carpeta_datos)) {
+        mkdir($carpeta_datos);
     }
 
-    if (!file_exists($archivo)) {
-        file_put_contents($archivo, '[]');
+    if (!file_exists($ruta_archivo)) {
+        file_put_contents($ruta_archivo, '[]');
     }
 
-    $datos = json_decode((string) file_get_contents($archivo), true);
+    $registros = json_decode((string) file_get_contents($ruta_archivo), true);
 
-    return is_array($datos) ? $datos : [];
+    return is_array($registros) ? $registros : [];
 }
 
 // GUARDAR UN ARRAY EN UN ARCHIVO JSON (devuelve true si se guardó)
 
-function guardar_json($archivo, $datos)
+function guardar_archivo_json($ruta_archivo, $registros)
 {
-    $texto = json_encode($datos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    $texto_json = json_encode($registros, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-    if ($texto === false) {
+    if ($texto_json === false) {
         return false;
     }
 
-    return file_put_contents($archivo, $texto, LOCK_EX) !== false;
+    return file_put_contents($ruta_archivo, $texto_json, LOCK_EX) !== false;
 }
 
 // DATOS TEMPORALES: lo que hay escrito en cada formulario
 
-function datos_vacios()
+function crear_datos_formularios_vacios()
 {
     return [
         'victima' => ['id' => '', 'nombre' => '', 'edad' => '', 'indicadores' => [], 'observaciones' => ''],
@@ -120,58 +120,58 @@ function datos_vacios()
 
 // Recuperar los datos temporales que llegan en el campo oculto (JSON)
 
-function recuperar_datos($texto)
+function recuperar_datos_formularios($texto_json)
 {
-    $datos = datos_vacios();
-    $recibidos = json_decode($texto, true);
+    $datos_formularios = crear_datos_formularios_vacios();
+    $datos_recibidos = json_decode($texto_json, true);
 
-    if (!is_array($recibidos)) {
-        return $datos;
+    if (!is_array($datos_recibidos)) {
+        return $datos_formularios;
     }
 
-    foreach ($datos as $seccion => $campos) {
-        if (isset($recibidos[$seccion]) && is_array($recibidos[$seccion])) {
-            $datos[$seccion] = array_merge($campos, $recibidos[$seccion]);
+    foreach ($datos_formularios as $nombre_seccion => $campos_vacios) {
+        if (isset($datos_recibidos[$nombre_seccion]) && is_array($datos_recibidos[$nombre_seccion])) {
+            $datos_formularios[$nombre_seccion] = array_merge($campos_vacios, $datos_recibidos[$nombre_seccion]);
         }
     }
 
-    return $datos;
+    return $datos_formularios;
 }
 
-// LEER UN CAMPO DE TEXTO DEL FORMULARIO (siempre devuelve un texto)
+// LEER UN CAMPO DE TEXTO ENVIADO POR EL FORMULARIO (siempre devuelve un texto)
 
-function post_texto($campo)
+function obtener_texto_enviado($nombre_campo)
 {
-    $valor = $_POST[$campo] ?? '';
+    $valor_enviado = $_POST[$nombre_campo] ?? '';
 
-    return is_string($valor) ? trim($valor) : '';
+    return is_string($valor_enviado) ? trim($valor_enviado) : '';
 }
 
 // COMPROBAR LAS RESPUESTAS DE LOS INDICADORES (Sí / No / Desconocido)
 
-function respuestas_validas($indicadores, $enviadas)
+function filtrar_respuestas_validas($indicadores_permitidos, $respuestas_enviadas)
 {
-    $respuestas = [];
+    $respuestas_validas = [];
 
-    foreach ($indicadores as $clave => $nombre) {
-        $respuesta = is_array($enviadas) ? ($enviadas[$clave] ?? 'Desconocido') : 'Desconocido';
+    foreach ($indicadores_permitidos as $clave_indicador => $texto_indicador) {
+        $respuesta = is_array($respuestas_enviadas) ? ($respuestas_enviadas[$clave_indicador] ?? 'Desconocido') : 'Desconocido';
 
-        if (!in_array($respuesta, RESPUESTAS, true)) {
+        if (!in_array($respuesta, RESPUESTAS_PERMITIDAS, true)) {
             $respuesta = 'Desconocido';
         }
 
-        $respuestas[$clave] = $respuesta;
+        $respuestas_validas[$clave_indicador] = $respuesta;
     }
 
-    return $respuestas;
+    return $respuestas_validas;
 }
 
 // BUSCAR UN REGISTRO POR SU IDENTIFICADOR (devuelve null si no existe)
 
-function buscar_registro($lista, $id)
+function buscar_registro_por_id($lista_registros, $identificador)
 {
-    foreach ($lista as $registro) {
-        if (($registro['id'] ?? '') === $id) {
+    foreach ($lista_registros as $registro) {
+        if (($registro['id'] ?? '') === $identificador) {
             return $registro;
         }
     }
@@ -181,10 +181,10 @@ function buscar_registro($lista, $id)
 
 // POSICION DE UN REGISTRO EN LA LISTA (devuelve -1 si no existe)
 
-function posicion_registro($lista, $id)
+function buscar_posicion_por_id($lista_registros, $identificador)
 {
-    foreach ($lista as $posicion => $registro) {
-        if (($registro['id'] ?? '') === $id) {
+    foreach ($lista_registros as $posicion => $registro) {
+        if (($registro['id'] ?? '') === $identificador) {
             return $posicion;
         }
     }
@@ -192,41 +192,41 @@ function posicion_registro($lista, $id)
     return -1;
 }
 
-// SEPARAR LOS FACTORES DETECTADOS ("Sí") Y LOS PENDIENTES ("Desconocido")
+// SEPARAR LOS INDICADORES DETECTADOS ("Sí") Y LOS PENDIENTES ("Desconocido")
 
-function clasificar_respuestas($indicadores, $respuestas)
+function separar_indicadores_detectados_y_pendientes($indicadores_permitidos, $respuestas_indicadores)
 {
-    $detectados = [];
-    $pendientes = [];
+    $indicadores_detectados = [];
+    $indicadores_pendientes = [];
 
-    foreach ($indicadores as $clave => $nombre) {
-        $respuesta = $respuestas[$clave] ?? 'Desconocido';
+    foreach ($indicadores_permitidos as $clave_indicador => $texto_indicador) {
+        $respuesta = $respuestas_indicadores[$clave_indicador] ?? 'Desconocido';
 
         if ($respuesta === 'Sí') {
-            $detectados[] = $nombre;
+            $indicadores_detectados[] = $texto_indicador;
         }
 
         if ($respuesta === 'Desconocido') {
-            $pendientes[] = $nombre;
+            $indicadores_pendientes[] = $texto_indicador;
         }
     }
 
-    return [$detectados, $pendientes];
+    return [$indicadores_detectados, $indicadores_pendientes];
 }
 
 // NIVEL ACADEMICO ORIENTATIVO (regla didáctica propia, no es la oficial)
 
-function nivel_riesgo($total)
+function calcular_nivel_riesgo_orientativo($total_indicadores_detectados)
 {
-    if ($total <= 2) {
+    if ($total_indicadores_detectados <= 2) {
         return 'Bajo';
     }
 
-    if ($total <= 5) {
+    if ($total_indicadores_detectados <= 5) {
         return 'Medio';
     }
 
-    if ($total <= 8) {
+    if ($total_indicadores_detectados <= 8) {
         return 'Alto';
     }
 
