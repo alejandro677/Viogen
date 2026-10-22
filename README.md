@@ -99,8 +99,7 @@ viogen/
 │   └── agresores.json
 ├── css/
 │   └── estilos.css
-└── js/
-    └── validaciones.js       # Opcional
+└      
 ```
 
 `funciones.php` es un elemento propuesto para organizar el proyecto; puede adaptarse a los requisitos concretos de la asignatura. La estructura debe respetar los directorios obligatorios que indique el enunciado.
